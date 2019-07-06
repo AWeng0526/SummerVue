@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="checkbox" v-model="isAllCheck" @change="changeAll()" v-bind:checked="isAllCheck" />全选
+        <hr>
+
+        <div type="checkbox" v-for="(item,index) in items">
+            <input type="checkbox" v-model="item.isCheck" :checked="item.isCheck" @change="clickSingle">{{item.text}}
+        </div>
+    </div>
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                isAllCheck: false,
+                items: [{
+                    text: "吃饭",
+                    isCheck: true
+                }, {
+                    text: "吃饭",
+                    isCheck: true
+                }, {
+                    text: "吃饭",
+                    isCheck: false
+                }]
+            },
+            methods: {
+                changeAll() {
+                    for (var i = 0; i < this.items.length; i++) {
+                        this.items[i].isCheck = !this.items[i].isCheck;
+                    }
+                },
+                clickSingle() {
+                    var allChecked = true;
+                    var _this = this;
+                    this.items.forEach(element => {
+                        if (element.isCheck == false) {
+                            allChecked = false;
+                        }
+                    });
+                    if (allChecked) {
+                        this.isAllCheck = allChecked;
+                        return;
+                    }
+                    var allNotChecked = true;
+                    this.items.forEach(element => {
+                        if (element.isCheck == true) {
+                            allChecked = false;
+                        }
+                    });
+                    if (allNotChecked) {
+                        this.isAllCheck = false;
+                        return;
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>
