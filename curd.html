@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>数据列表</title>
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+    <script src="./node_modules/jquery/dist/jquery.js"></script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+
+    <div id="app">
+
+        <!-- <button>添加</button>
+        <button @click="del">删除</button> -->
+
+        <table width="100%" border="1" class="table table-bordered">
+            <tr>
+                <th>ID</th>
+                <th>用户名</th>
+                <th>性别</th>
+                <th>年龄</th>
+                <th>Email</th>
+                <th>操作</th>
+            </tr>
+
+            <tr v-for="(item, index) in userList" :key="index">
+                <td>{{item.id}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.sex}}</td>
+                <td>{{item.age}}</td>
+                <td>{{item.email}}</td>
+                <td>操作</td>
+            </tr>
+
+        </table>
+
+
+        <div id="add">
+            <h2>添加</h2>
+            id：<input type="text" name="id" v-model="newUser.id"> <br>
+            用户名：<input type="text" name="name" v-model="newUser.name"> <br>
+            性别：<input type="text" name="sex" v-model="newUser.sex"> <br>
+            年龄：<input type="text" name="age" v-model="newUser.age"> <br>
+            Email：<input type="text" name="email" v-model="newUser.email">
+            <button type="button" @click="add">添加数据</button>
+        </div>
+
+        <hr>
+
+        <div id="edit">
+            <h2>修改</h2>
+            id：<input type="text" name="id" v-model="updateUser.id" @blur="update"> <br>
+            用户名：<input type="text" name="name" v-model="updateUser.name"> <br>
+            性别：<input type="text" name="sex" v-model="updateUser.sex"> <br>
+            年龄：<input type="text" name="age" v-model="updateUser.age"> <br>
+            Email：<input type="text" name="email" v-model="updateUser.email">
+            <!-- <button type="button" @click="add">添加数据</button> -->
+        </div>
+
+    </div>
+
+
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                index: 1,
+                userList: [{
+                        id: 1,
+                        name: 'aaa',
+                        sex: '男',
+                        age: 20,
+                        email: 'aaa@aaa.com'
+                    },
+                    {
+                        id: 2,
+                        name: 'abc',
+                        sex: '女',
+                        age: 18,
+                        email: 'abc@aaa.com'
+                    },
+                    {
+                        id: 3,
+                        name: 'bbb',
+                        sex: '男',
+                        age: 20,
+                        email: 'bbb@aaa.com'
+                    }
+                ],
+                newUser: {
+                    id: '',
+                    name: '',
+                    sex: '',
+                    age: '',
+                    email: ''
+                },
+                updateUser: {
+                    id: '',
+                    name: '',
+                    sex: '',
+                    age: '',
+                    email: ''
+                },
+            },
+            methods: {
+                add() {
+                    var temp = JSON.stringify(this.newUser),
+                        cloneUser = JSON.parse(temp);
+                    this.userList.push(cloneUser);
+                },
+                del() {
+                    // this.userList.splice(index, 1);
+                },
+                update() {
+                    for (let i = 0; i < this.userList.length; i++) {
+                        if (this.userList[i].id == this.updateUser.id) {
+                            this.updateUser = this.userList[i];
+                            console.log(this.updateUser);
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>
