@@ -13,10 +13,7 @@
 <body>
 
     <div id="app">
-
-
-
-        <table width="100%" border="1" class="table table-bordered">
+        <table width="100%" class="table table-bordered table-hover">
             <tr>
                 <th>ID</th>
                 <th>用户名</th>
@@ -26,24 +23,33 @@
                 <th>操作</th>
             </tr>
 
-            <tr v-for="(item, index) in userList" :key="index">
+            <tr v-for="(item, index) in userList" :key="index" v-if="item.vis">
                 <td>{{item.id}}</td>
                 <td>{{item.name}}</td>
                 <td>{{item.sex}}</td>
                 <td>{{item.age}}</td>
                 <td>{{item.email}}</td>
-                <td>操作</td>
+                <td>
+
+                    <button @click="update(index)" type="button" class="btn btn-success btn-sm" data-toggle="modal"
+                        data-target="#updateModal">
+                        修改
+                    </button>
+
+                    <button @click="setDelIndex(index)" type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                        data-target="#delModal">
+                        删除
+                    </button>
+
+                </td>
             </tr>
 
         </table>
-
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-            添加
-        </button>
-
-        <!-- Modal -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <button type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#selectModal">查询</button>
+        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addModal">添加</button>
+        <!-- 模态框组件 -->
+        <!-- 查询数据 -->
+        <div class="modal fade" id="selectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -55,23 +61,54 @@
                         <form>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">ID：</label>
-                                <input v-model="newUser.id" type="text" id="addUsername" class="form-control" placeholder="ID：">
+                                <input v-model="selectId" type="text" id="addUsername" class="form-control"
+                                    placeholder="ID：">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" @click="select">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 增添数据 -->
+        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">添加数据</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">ID：</label>
+                                <input v-model="newUser.id" type="text" id="addUsername" class="form-control"
+                                    placeholder="ID：">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">用户名：</label>
-                                <input v-model="newUser.name" type="text" id="addUserPwd" class="form-control" placeholder="用户名：">
+                                <input v-model="newUser.name" type="text" id="addUserPwd" class="form-control"
+                                    placeholder="用户名：">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">性别：</label>
-                                <input v-model="newUser.sex" type="text" id="addUserPwd" class="form-control" placeholder="性别：">
+                                <input v-model="newUser.sex" type="text" id="addUserPwd" class="form-control"
+                                    placeholder="性别：">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">年龄：</label>
-                                <input v-model="newUser.age" type="text" id="addUserPwd" class="form-control" placeholder="年龄：">
+                                <input v-model="newUser.age" type="text" id="addUserPwd" class="form-control"
+                                    placeholder="年龄：">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Email：</label>
-                                <input v-model="newUser.email" type="text" id="addUserPwd" class="form-control" placeholder="Email：">
+                                <input v-model="newUser.email" type="text" id="addUserPwd" class="form-control"
+                                    placeholder="Email：">
                             </div>
                         </form>
                     </div>
@@ -83,48 +120,117 @@
             </div>
         </div>
 
-
-
-        <hr>
-
-        <div id="edit">
-            <h2>修改</h2>
-            id：<input type="text" name="id" v-model="updateUser.id" @blur="update"> <br>
-            用户名：<input type="text" name="name" v-model="updateUser.name"> <br>
-            性别：<input type="text" name="sex" v-model="updateUser.sex"> <br>
-            年龄：<input type="text" name="age" v-model="updateUser.age"> <br>
-            Email：<input type="text" name="email" v-model="updateUser.email">
-            <!-- <button type="button" @click="add">添加数据</button> -->
+        <!-- 修改数据 -->
+        <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">修改数据</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">ID：</label>
+                                <input v-model="updateUser.id" type="text" id="addUsername" class="form-control"
+                                    placeholder="ID：">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">用户名：</label>
+                                <input v-model="updateUser.name" type="text" id="addUsername" class="form-control"
+                                    placeholder="用户名：">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">性别：</label>
+                                <input v-model="updateUser.sex" type="text" id="addUsername" class="form-control"
+                                    placeholder="性别：">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">年龄：</label>
+                                <input v-model="updateUser.age" type="text" id="addUsername" class="form-control"
+                                    placeholder="年龄：">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Email：</label>
+                                <input v-model="updateUser.email" type="text" id="addUsername" class="form-control"
+                                    placeholder="Email：">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button @click="cancelUpdate" type="button" class="btn btn-default">关闭</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+                    </div>
+                </div>
+            </div>
         </div>
-
+        <!-- 删除数据 -->
+        <div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">删除数据</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table width="100%" class="table table-bordered table-hover">
+                            <tr>
+                                <th>ID</th>
+                                <th>用户名</th>
+                                <th>性别</th>
+                                <th>年龄</th>
+                                <th>Email</th>
+                            </tr>
+                            <tr>
+                                <td>{{delItem.id}}</td>
+                                <td>{{delItem.name}}</td>
+                                <td>{{delItem.sex}}</td>
+                                <td>{{delItem.age}}</td>
+                                <td>{{delItem.email}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" @click="del">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
 
     <script>
         let vm = new Vue({
             el: '#app',
             data: {
-                index: 1,
+                delIndex: 0,
+                updateIndex: 0,
+                selectId: 0,
                 userList: [{
-                        id: 1,
-                        name: 'aaa',
+                        id: 1725121023,
+                        name: '翁彧贤',
                         sex: '男',
                         age: 20,
-                        email: 'aaa@aaa.com'
+                        email: 'wyx@wyx.com',
+                        vis: true,
                     },
                     {
-                        id: 2,
-                        name: 'abc',
-                        sex: '女',
+                        id: 1725121024,
+                        name: '吴明勇',
+                        sex: '男',
                         age: 18,
-                        email: 'abc@aaa.com'
+                        email: 'wmy@wmy.com',
+                        vis: true,
                     },
                     {
-                        id: 3,
-                        name: 'bbb',
-                        sex: '男',
+                        id: 1725121025,
+                        name: '吴艺评',
+                        sex: '女',
                         age: 20,
-                        email: 'bbb@aaa.com'
+                        email: 'bbb@aaa.com',
+                        vis: true,
                     }
                 ],
                 newUser: {
@@ -132,38 +238,76 @@
                     name: '',
                     sex: '',
                     age: '',
-                    email: ''
+                    email: '',
+                    vis: true,
                 },
                 updateUser: {
                     id: '',
                     name: '',
                     sex: '',
                     age: '',
-                    email: ''
+                    email: '',
+                    vis: true,
                 },
+                delItem: {
+                    id: '',
+                    name: '',
+                    sex: '',
+                    age: '',
+                    email: '',
+                    vis: true,
+                }
             },
             methods: {
+                //添加数据
                 add() {
-                    var temp = JSON.stringify(this.newUser),
-                        cloneUser = JSON.parse(temp);
+                    var temp = JSON.stringify(this.newUser);
+                    var cloneUser = JSON.parse(temp);
                     this.userList.push(cloneUser);
+                    $('#addModal').modal("hide");
                 },
+                //保存要删除item的索引
+                setDelIndex(index) {
+                    this.delIndex = index;
+                    this.delItem = this.userList[index];
+                },
+                //删除数据
                 del() {
-                    // this.userList.splice(index, 1);
+                    this.userList.splice(this.delIndex, 1);
+                    $('#delModal').modal("hide");
                 },
-                update() {
-                    for (let i = 0; i < this.userList.length; i++) {
-                        if (this.userList[i].id == this.updateUser.id) {
-                            this.updateUser = this.userList[i];
-                            console.log(this.updateUser);
-                            break;
+                //更新数据
+                update(index) {
+                    //保存索引,用于撤销操作
+                    this.updateIndex = index;
+                    //cancelUpdateItem是用于撤回的备份
+                    //两个json转置得到深拷贝,确保cancelUpdateItem不会被改变
+                    var temp = JSON.stringify(this.userList[index]);
+                    this.cancelUpdateItem = JSON.parse(temp);
+                    this.updateUser = this.userList[index];
+                },
+                //撤回更新,数据已经更新,但是不知道为什么页面没有更新
+                cancelUpdate() {
+                    this.userList[this.updateIndex] = this.cancelUpdateItem;
+                    console.log('备份数据', this.cancelUpdateItem);
+                    console.log('索引', this.updateIndex);
+                    console.log('实际数据', this.userList[this.updateIndex]);
+                    console.log('完整数据', this.userList);
+                    $('#updateModal').modal("hide");
+                },
+                //查询
+                select(id) {
+                    for (var i = 0; i < this.userList.length; i++) {
+                        if (this.userList[i].id == this.selectId) {
+                            continue;
                         }
+                        this.userList[i].vis = false;
                     }
+                    $('#selectModal').modal("hide");
                 }
             }
         });
     </script>
-
 </body>
 
 </html>
