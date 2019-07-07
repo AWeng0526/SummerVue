@@ -226,10 +226,10 @@
                     },
                     {
                         id: 1725121025,
-                        name: '吴艺评',
+                        name: '吴艺萍',
                         sex: '女',
                         age: 20,
-                        email: 'bbb@aaa.com',
+                        email: 'wyp@wyp.com',
                         vis: true,
                     }
                 ],
@@ -281,18 +281,15 @@
                     //保存索引,用于撤销操作
                     this.updateIndex = index;
                     //cancelUpdateItem是用于撤回的备份
-                    //两个json转置得到深拷贝,确保cancelUpdateItem不会被改变
+                    //json来回转置得到深拷贝,确保cancelUpdateItem不会被改变
                     var temp = JSON.stringify(this.userList[index]);
                     this.cancelUpdateItem = JSON.parse(temp);
                     this.updateUser = this.userList[index];
                 },
-                //撤回更新,数据已经更新,但是不知道为什么页面没有更新
+                //撤回更新,数据已经更新
                 cancelUpdate() {
+                    this.updateUser = this.cancelUpdateItem;
                     this.userList[this.updateIndex] = this.cancelUpdateItem;
-                    console.log('备份数据', this.cancelUpdateItem);
-                    console.log('索引', this.updateIndex);
-                    console.log('实际数据', this.userList[this.updateIndex]);
-                    console.log('完整数据', this.userList);
                     $('#updateModal').modal("hide");
                 },
                 //查询
