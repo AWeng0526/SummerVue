@@ -8,10 +8,25 @@
     <script src="./node_modules/jquery/dist/jquery.js"></script>
     <script src="./node_modules/bootstrap/dist/js/bootstrap.js"></script>
     <script src="./node_modules/vue/dist/vue.js"></script>
+    <style>
+        table {
+            text-align: center;
+        }
+
+        table tr  td{
+            vertical-align: middle;
+            margin-top: auto;
+        }
+
+        table tr td button {
+            width: 30%;
+            margin: auto 10px;
+        }
+    </style>
 </head>
 
 <body>
-
+    <h2>VueCURD作业</h2>
     <div id="app">
         <table width="100%" class="table table-bordered table-hover">
             <tr>
@@ -205,8 +220,11 @@
         let vm = new Vue({
             el: '#app',
             data: {
+                //要被删除元素的索引
                 delIndex: 0,
+                //要被更新元素的索引
                 updateIndex: 0,
+                //被选中的元素的id
                 selectId: 0,
                 userList: [{
                         id: 1725121023,
@@ -233,6 +251,7 @@
                         vis: true,
                     }
                 ],
+                //临时变量,用于插入
                 newUser: {
                     id: '',
                     name: '',
@@ -241,6 +260,7 @@
                     email: '',
                     vis: true,
                 },
+                //临时变量,用于更新
                 updateUser: {
                     id: '',
                     name: '',
@@ -249,6 +269,7 @@
                     email: '',
                     vis: true,
                 },
+                //临时变量,用于删除
                 delItem: {
                     id: '',
                     name: '',
