@@ -13,15 +13,17 @@
             text-align: center;
         }
 
-        table tr  td{
-            vertical-align: middle;
-            margin-top: auto;
+
+        .table th,
+        .table td {
+            text-align: center;
+            vertical-align: middle !important;
         }
 
-        table tr td button {
+        /* table tr td button {
             width: 30%;
             margin: auto 10px;
-        }
+        } */
     </style>
 </head>
 
@@ -46,12 +48,12 @@
                 <td>{{item.email}}</td>
                 <td>
 
-                    <button @click="update(index)" type="button" class="btn btn-success btn-sm" data-toggle="modal"
+                    <button @click="update(index)" type="button" class="btn btn-success btn-md" data-toggle="modal"
                         data-target="#updateModal">
                         修改
                     </button>
 
-                    <button @click="setDelIndex(index)" type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                    <button @click="setDelIndex(index)" type="button" class="btn btn-danger btn-md" data-toggle="modal"
                         data-target="#delModal">
                         删除
                     </button>
@@ -103,27 +105,27 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail1">ID：</label>
                                 <input v-model="newUser.id" type="text" id="addUsername" class="form-control"
-                                    placeholder="ID：">
+                                    placeholder="ID">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">用户名：</label>
                                 <input v-model="newUser.name" type="text" id="addUserPwd" class="form-control"
-                                    placeholder="用户名：">
+                                    placeholder="用户名">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">性别：</label>
                                 <input v-model="newUser.sex" type="text" id="addUserPwd" class="form-control"
-                                    placeholder="性别：">
+                                    placeholder="性别">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">年龄：</label>
                                 <input v-model="newUser.age" type="text" id="addUserPwd" class="form-control"
-                                    placeholder="年龄：">
+                                    placeholder="年龄">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Email：</label>
                                 <input v-model="newUser.email" type="text" id="addUserPwd" class="form-control"
-                                    placeholder="Email：">
+                                    placeholder="Email">
                             </div>
                         </form>
                     </div>
@@ -148,23 +150,23 @@
                         <form>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">ID：</label>
-                                <input v-model="updateUser.id" type="text" id="addUsername" class="form-control"
-                                    placeholder="ID：">
+                                <input v-model="updateUser.id" readonly type="text" id="addUsername"
+                                    class="form-control" placeholder="ID">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">用户名：</label>
                                 <input v-model="updateUser.name" type="text" id="addUsername" class="form-control"
-                                    placeholder="用户名：">
+                                    placeholder="用户名">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">性别：</label>
                                 <input v-model="updateUser.sex" type="text" id="addUsername" class="form-control"
-                                    placeholder="性别：">
+                                    placeholder="性别">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">年龄：</label>
                                 <input v-model="updateUser.age" type="text" id="addUsername" class="form-control"
-                                    placeholder="年龄：">
+                                    placeholder="年龄">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Email：</label>
@@ -225,7 +227,7 @@
                 //要被更新元素的索引
                 updateIndex: 0,
                 //被选中的元素的id
-                selectId: 0,
+                selectId: '',
                 userList: [{
                         id: 1725121023,
                         name: '翁彧贤',
